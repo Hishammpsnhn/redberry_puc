@@ -4,10 +4,10 @@ const Mux = require("@mux/mux-node");
 const bodyParser = require("body-parser");
 const VideoModel = require("../models/Video");
 
-const MUX_WEBHOOK_SECRET = "20ssui95m2ir6vfi9brbvgncnvr8m56i";
+const MUX_WEBHOOK_SECRET = process.env.MUX_WEBHOOK_SECRET;
 const mux = new Mux({
-   tokenId: "cfa10c93-9738-4199-b031-ef189d892b09",
-  tokenSecret:  "wC02/k9JJKP5uKNSxnJbnm69OssO/lLlUpf1jtaFzTtwp3uWnFuwXQglniRGqwgNtlNzWuHk+9n",
+  tokenId: process.env.MUX_TOKEN_ID,
+  tokenSecret: process.env.MUX_SECRET,
 });
 const router = express.Router();
 
