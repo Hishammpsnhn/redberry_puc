@@ -22,7 +22,7 @@ import {
   Divider,
 } from "@mui/material";
 import { CloudUpload, Movie, Close, Add, Delete } from "@mui/icons-material";
-import { uploadMovie } from "../../action/movieAction";
+import { createAsset, uploadMovie } from "../../action/movieAction";
 import axios from "axios";
 
 const genres = [
@@ -145,7 +145,7 @@ export default function UploadPage() {
         },
       });
 
-      
+      createAsset({...metadata, s3Url: res.fileUrl})
       //alert("Movie uploaded successfully!")
 
       // Reset form

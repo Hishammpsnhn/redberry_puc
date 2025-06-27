@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "@mux/mux-player"; // registers <mux-player>
 import { Box, CircularProgress, Typography } from "@mui/material";
-import axios from "axios";
 import { getMovie } from "../../action/movieAction";
 
 const VideoPage = () => {
@@ -51,8 +50,10 @@ const VideoPage = () => {
         playback-id={video.playbackId}
         stream-type="on-demand"
         metadata-video-title={video.title}
-        initial-rendition-index={0} //low quality inital
+        //max-resolution="480p"
+        initial-rendition-index={0}
         controls
+        poster={`https://image.mux.com/${video.playbackId}/thumbnail.jpg?time=4`}
         style={{ width: "100%", aspectRatio: "16/9", borderRadius: "12px" }}
       ></mux-player>
 

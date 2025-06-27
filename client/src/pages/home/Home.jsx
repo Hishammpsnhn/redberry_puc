@@ -17,12 +17,12 @@ const Home = () => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hoveredId, setHoveredId] = useState(null);
 
   useEffect(() => {
     const getMovies = async () => {
       try {
         const res = await getAllMovies();
-        console.log(res);
         setMovies(res);
       } catch (error) {
         console.error("Failed to fetch movies:", error);
@@ -51,32 +51,37 @@ const Home = () => {
       </Box>
 
       <Grid container spacing={4}>
-        {movies.map((movie) => (
-          <Grid item xs={12} sm={6} md={4} key={movie._id}>
-            <Card>
-              <CardMedia
-                onClick={() => navigate(`/video/${movie._id}`)}
-                component="img"
-                height="200"
-                image={
-                  movie.thumbnailUrl ||
-                  `https://image.mux.com/${movie.playbackId}/thumbnail.jpg`
-                }
-                alt={movie.title}
-                sx={{ cursor: "pointer" }}
-              />
-              <CardContent>
-                <Typography variant="h6">{movie.title}</Typography>
-                <Typography variant="body2" color="text.secondary" noWrap>
-                  {movie.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+        {movies.map((movie) => {
+          const thumbnail = movie.thumbnailUrl || `https://image.mux.com/${movie.playbackId}/thumbnail.jpg`;
+          const animatedGif = `https://image.mux.com/${movie.playbackId}/animated.gif?width=320`;
+
+          return (
+            <Grid item xs={12} sm={6} md={4} key={movie._id}>
+              <Card>
+                <CardMedia
+                  onClick={() => navigate(`/video/${movie._id}`)}
+                  component="img"
+                  height="200"
+                  image={hoveredId === movie._id ? animatedGif : thumbnail}
+                  alt={movie.title}
+                  sx={{ cursor: "pointer", transition: "0.3s" }}
+                  onMouseEnter={() => setHoveredId(movie._id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                />
+                <CardContent>
+                  <Typography variant="h6">{movie.title}</Typography>
+                  <Typography variant="body2" color="text.secondary" noWrap>
+                    {movie.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          );
+        })}
       </Grid>
     </Container>
   );
 };
 
 export default Home;
+
